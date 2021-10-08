@@ -2,6 +2,40 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type ItemModel {
+  id: String!
+  name: String!
+  stock: Int!
+  unit: String!
+  threshold: Int!
+  orderAmount: Int!
+  status: String!
+  category: String!
+}
+
+input InputItem {
+  id: String!
+  name: String!
+  stock: Int!
+  unit: String!
+  threshold: Int!
+  orderAmount: Int!
+  status: String!
+  category: String!
+}
+
 type Query {
   helloWorld: String!
+  getItem(id: String!): ItemModel!
+  listItems: [ItemModel!]!
+}
+
+type Mutation {
+  createItem(createItemArgs: ItemInput!): ItemModel!
+  updateItem(updateItemArgs: ItemInput!): ItemModel!
+  deleteItem(id: String!): ItemModel!
+}
+
+input ItemInput {
+  item: InputItem!
 }

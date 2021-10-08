@@ -1,7 +1,8 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
 
 @ObjectType()
-export class itemsModel {
+@InputType('InputItem')
+export class ItemModel {
   @Field()
   id: string;
 
@@ -10,6 +11,9 @@ export class itemsModel {
 
   @Field(() => Int)
   stock: number;
+
+  @Field()
+  unit: string;
 
   @Field(() => Int)
   threshold: number;
