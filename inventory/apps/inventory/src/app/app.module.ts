@@ -7,7 +7,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
-import { TestComponent } from './components/test/test.component';
 import { AppRoutingModule } from './app-routing.module';
 import { InventoryService } from './services/inventory.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -15,14 +14,16 @@ import { InventoryPageComponent } from './components/inventory-page/inventory-pa
 import { InventoryTableComponent } from './components/inventory-table/inventory-table.component';
 import { OrderTableComponent } from './components/order-table/order-table.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { AddStuffComponent } from './dialogs/add-stuff/add-stuff.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestComponent,
     InventoryPageComponent,
     InventoryTableComponent,
     OrderTableComponent,
+    AddStuffComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -30,6 +31,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     HttpClientModule,
     BrowserAnimationsModule,
     MatTabsModule,
+    MatTableModule,
   ],
   providers: [
     {
