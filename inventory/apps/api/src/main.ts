@@ -11,6 +11,7 @@ import { PrismaService } from './app/prisma/prisma.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   const apiPrefix = 'api';
   const graphPrefix = 'graphql';
   app.setGlobalPrefix(apiPrefix);
