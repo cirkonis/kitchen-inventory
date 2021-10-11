@@ -1,1 +1,6 @@
-<p>add-stuff works!</p>
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content class="content">
+<inventory-full-item-form *ngIf="!loading" [item]="item" [mode]="'Create'" (itemPayload)="itemPayloadReceived($event)">
+</inventory-full-item-form>
+  <mat-spinner *ngIf="loading" color="accent"></mat-spinner>
+</div>

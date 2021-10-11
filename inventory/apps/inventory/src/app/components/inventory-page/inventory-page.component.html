@@ -6,6 +6,9 @@
       alt="Computas"
     />
     <h1 class="compu-text">COMPUSTUFF</h1>
+    <div class="add-stuff-button">
+      <button mat-raised-button color="primary" (click)="addStuff()">Add A Stuff</button>
+    </div>
   </div>
   <div class="tab-group">
     <mat-tab-group animationDuration="1000ms">
@@ -23,4 +26,7 @@
       </mat-tab>
     </mat-tab-group>
   </div>
+  <mat-spinner *ngIf="loading" color="primary"></mat-spinner>
 </div>
+
+

@@ -16,6 +16,15 @@ import { OrderTableComponent } from './components/order-table/order-table.compon
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { AddStuffComponent } from './dialogs/add-stuff/add-stuff.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FullItemFormComponent } from './dialogs/full-item-form/full-item-form.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -24,6 +33,7 @@ import { AddStuffComponent } from './dialogs/add-stuff/add-stuff.component';
     InventoryTableComponent,
     OrderTableComponent,
     AddStuffComponent,
+    FullItemFormComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -32,6 +42,14 @@ import { AddStuffComponent } from './dialogs/add-stuff/add-stuff.component';
     BrowserAnimationsModule,
     MatTabsModule,
     MatTableModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDividerModule,
   ],
   providers: [
     {
@@ -47,6 +65,7 @@ import { AddStuffComponent } from './dialogs/add-stuff/add-stuff.component';
       deps: [HttpLink],
     },
     InventoryService,
+    MatDialog,
   ],
   bootstrap: [AppComponent],
 })

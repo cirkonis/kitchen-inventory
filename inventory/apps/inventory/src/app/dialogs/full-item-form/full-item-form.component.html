@@ -1,0 +1,78 @@
+<form [formGroup]="itemForm" class="form-container" (submit)="onSubmit()">
+  <mat-form-field class="form-field">
+    <mat-label> Item </mat-label>
+    <input
+      formControlName="name"
+      matInput
+      type="text"
+      placeholder="{{ item.name }}"
+      [required]="true"
+    />
+  </mat-form-field>
+  <label for="select"> Type of Stuff </label>
+  <div class="form-field select">
+    <select id="select" formControlName="category">
+      <option value="">Choose what kind of stuff this item is</option>
+      <option *ngFor="let category of categories">
+        {{ category }}
+      </option>
+    </select>
+  </div>
+  <div class="multi-input-row">
+    <mat-form-field class="form-field">
+      <mat-label> Stock </mat-label>
+      <input
+        formControlName="stock"
+        matInput
+        type="number"
+        min="0"
+        placeholder="{{ item.stock }}"
+        [required]="true"
+      />
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label> Unit </mat-label>
+      <input
+        formControlName="unit"
+        matInput
+        type="text"
+        placeholder="{{ item.unit }}"
+        [required]="true"
+      />
+    </mat-form-field>
+  </div>
+  <div class="multi-input-row">
+    <mat-form-field class="form-field">
+      <mat-label> Threshold </mat-label>
+      <input
+        formControlName="threshold"
+        matInput
+        type="number"
+        min="0"
+        placeholder="{{ item.threshold }}"
+        [required]="true"
+      />
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label> Amount to Order </mat-label>
+      <input
+        formControlName="orderAmount"
+        matInput
+        type="number"
+        min="0"
+        placeholder="{{ item.orderAmount }}"
+        [required]="true"
+      />
+    </mat-form-field>
+  </div>
+  <mat-divider></mat-divider>
+  <button
+    type="submit"
+    mat-raised-button
+    color="primary"
+    [disabled]="!itemForm.valid"
+  >
+    {{mode}} Item
+  </button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
+</form>

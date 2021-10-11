@@ -15,8 +15,9 @@ export interface Item {
 
 export enum Categories {
   SNACK = 'SNACK-BOI',
-  DRINK = 'DRINK-BOI',
-  UTILITIY = 'UTIL-BOI',
+  DRINK = 'Drinky Drink :)',
+  UTILITIY = 'Other Usefull Kinda Thing',
+  UNDETERMINED = 'UNDETERMINED',
 }
 
 export enum Statuses {
@@ -24,4 +25,5 @@ export enum Statuses {
   ENOUGH = 'ALL-GOOD',
   ON_ORDER = 'ON-ORDER-LIST',
   ON_THE_WAY = 'ORDERED-AND-COMING',
+  UNDETERMINED = 'UNDETERMINED',
 }
