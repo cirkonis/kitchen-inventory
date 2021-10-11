@@ -1,33 +1,37 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 inventory-table">
+<table
+  mat-table
+  [dataSource]="dataSource"
+  class="mat-elevation-z8 inventory-table"
+>
   <!-- Position Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>Item</th>
-    <td mat-cell *matCellDef="let item">{{item.name}}</td>
+    <td mat-cell *matCellDef="let item">{{ item.name }}</td>
   </ng-container>
 
   <ng-container matColumnDef="stock">
     <th mat-header-cell *matHeaderCellDef>Stock</th>
-    <td mat-cell *matCellDef="let item">{{item.stock}}</td>
+    <td mat-cell *matCellDef="let item">{{ item.stock }}</td>
   </ng-container>
 
   <ng-container matColumnDef="unit">
     <th mat-header-cell *matHeaderCellDef>Unit</th>
-    <td mat-cell *matCellDef="let item">{{item.unit}}</td>
+    <td mat-cell *matCellDef="let item">{{ item.unit }}</td>
   </ng-container>
 
   <ng-container matColumnDef="threshold">
     <th mat-header-cell *matHeaderCellDef>Threshold</th>
-    <td mat-cell *matCellDef="let item">{{item.threshold}}</td>
+    <td mat-cell *matCellDef="let item">{{ item.threshold }}</td>
   </ng-container>
 
   <ng-container matColumnDef="amount">
     <th mat-header-cell *matHeaderCellDef>Amount to order</th>
-    <td mat-cell *matCellDef="let item">{{item.orderAmount}}</td>
+    <td mat-cell *matCellDef="let item">{{ item.orderAmount }}</td>
   </ng-container>
 
   <ng-container matColumnDef="status">
     <th mat-header-cell *matHeaderCellDef>Status</th>
-    <td mat-cell *matCellDef="let item">{{item.status}}</td>
+    <td mat-cell *matCellDef="let item">{{ item.status }}</td>
   </ng-container>
 
   <ng-container matColumnDef="order">
@@ -43,15 +47,21 @@
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef>Edit</th>
     <td mat-cell *matCellDef="let item">
-      <button mat-icon-button color="accent" (click)="editStuff(item)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button color="accent" (click)="editStuff(item)">
+        <mat-icon>edit</mat-icon>
+      </button>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="delete">
     <th mat-header-cell *matHeaderCellDef>Delete</th>
-    <td mat-cell *matCellDef="let item">delete</td>
+    <td mat-cell *matCellDef="let item">
+      <button mat-icon-button color="warn" (click)="deleteStuff(item.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>

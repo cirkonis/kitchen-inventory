@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <div class="title">
+    <p>{{ dialogData.titleText }}<span>😬</span></p>
+  </div>
+  <div class="body">
+    <p>{{ dialogData.bodyText }}</p>
+  </div>
+  <div class="footer">
+    <button type="button" mat-button color="warn" (click)="onCancelClick()">
+      {{ dialogData.cancelText }}
+    </button>
+    <button type="button" mat-button color="accent" (click)="onConfirmClick()">
+      {{ dialogData.approveText }}
+    </button>
+  </div>
+</div>

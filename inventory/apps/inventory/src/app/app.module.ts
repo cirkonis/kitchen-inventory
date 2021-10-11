@@ -27,6 +27,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { EditStuffComponent } from './dialogs/edit-stuff/edit-stuff.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MatIconModule } from '@angular/material/icon';
     AddStuffComponent,
     FullItemFormComponent,
     EditStuffComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     AppRoutingModule,
