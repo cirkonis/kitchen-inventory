@@ -27,12 +27,18 @@ export class FullItemFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) {}
   ngOnInit(): void {
     this.itemForm = this.formBuilder.group({
-      name: [null, [Validators.required]],
-      stock: [null, [Validators.required, Validators.min(0)]],
-      unit: [null, [Validators.required]],
-      threshold: [null, [Validators.required, Validators.min(0)]],
-      orderAmount: [null, [Validators.required, Validators.min(0)]],
-      category: [null, [Validators.required]],
+      name: [this.item.name, [Validators.required]],
+      stock: [this.item.stock, [Validators.required, Validators.min(0)]],
+      unit: [this.item.unit, [Validators.required]],
+      threshold: [
+        this.item.threshold,
+        [Validators.required, Validators.min(0)],
+      ],
+      orderAmount: [
+        this.item.orderAmount,
+        [Validators.required, Validators.min(0)],
+      ],
+      category: [this.item.category, [Validators.required]],
     });
   }
   onSubmit() {
