@@ -35,6 +35,7 @@ export class InventoryService {
           listItems {
             id
             name
+            unit
             stock
             orderAmount
             category

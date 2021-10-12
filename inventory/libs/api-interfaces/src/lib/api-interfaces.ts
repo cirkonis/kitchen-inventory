@@ -11,6 +11,8 @@ export interface Item {
   orderAmount: number;
   status: Statuses;
   category: Categories;
+  updatedStockStatus?: UpdateStockStatuses;
+  updatedStockValue?: number;
 }
 
 export enum Categories {
@@ -26,4 +28,10 @@ export enum Statuses {
   ON_ORDER = 'ON-ORDER-LIST',
   ON_THE_WAY = 'ORDERED-AND-COMING',
   UNDETERMINED = 'UNDETERMINED',
+}
+
+export enum UpdateStockStatuses {
+  REDUCED = 'REDUCED',
+  INCREASED = 'INCREASED',
+  UNCHANGED = 'UNCHANGED',
 }

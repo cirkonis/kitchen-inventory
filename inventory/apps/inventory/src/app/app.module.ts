@@ -28,6 +28,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { EditStuffComponent } from './dialogs/edit-stuff/edit-stuff.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confi
     MatInputModule,
     MatDividerModule,
     MatIconModule,
+    MatSelectModule,
   ],
   providers: [
     {

@@ -39,8 +39,7 @@ export class AddStuffComponent implements OnInit {
       status: status!,
     };
     await this.inventoryService.createItem(itemPayload).subscribe();
-    this.dialogRef.close();
-    // TODO 2021-10-11 MM replace this with observable stream to update data
     window.location.reload();
+    this.dialogRef.close();
   }
 }

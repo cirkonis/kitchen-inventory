@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Categories, Item, Statuses } from '@inventory/api-interfaces';
+import {
+  Categories,
+  Item,
+  Statuses,
+  UpdateStockStatuses,
+} from '@inventory/api-interfaces';
 import { InventoryService } from '../../services/inventory.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddStuffComponent } from '../../dialogs/add-stuff/add-stuff.component';
@@ -10,7 +15,7 @@ import { AddStuffComponent } from '../../dialogs/add-stuff/add-stuff.component';
   styleUrls: ['./inventory-page.component.css'],
 })
 export class InventoryPageComponent implements OnInit {
-  items!: Item[];
+  items: Item[] = [];
 
   drinks!: Item[];
   snacks!: Item[];
@@ -31,7 +36,13 @@ export class InventoryPageComponent implements OnInit {
   async setItems() {
     this.loading = true;
     await this.inventoryService.listItems().subscribe((result) => {
-      this.items = result.data.listItems;
+      for (let item of result.data.listItems) {
+        this.items.push({
+          ...item,
+          updatedStockStatus: UpdateStockStatuses.UNCHANGED,
+          updatedStockValue: item.stock,
+        });
+      }
 
       this.drinks = this.items.filter(
         (item) => item.category === Categories.DRINK
