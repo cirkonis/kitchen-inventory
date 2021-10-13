@@ -8,9 +8,10 @@
   "scripts": {
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main && prisma generate",
-    "start": "nx run-many --target=serve --projects=inventory,api --parallel=true",
+    "start": "nx serve api",
     "build": "nx run-many --target=build --projects=inventory,api --parallel=true",
     "test": "nx test",
+    "serve-be-and-fe": "nx run-many --target=serve --projects=inventory,api --parallel=true",
     "serve-be": "nx serve api --watch",
     "serve-fe": "nx serve inventory --watch",
     "build-be": "nx build api"
@@ -32,6 +33,7 @@
     "@nestjs/core": "^7.0.0",
     "@nestjs/graphql": "^9.0.4",
     "@nestjs/platform-express": "^7.0.0",
+    "@nestjs/serve-static": "^2.2.2",
     "@nrwl/angular": "12.9.0",
     "@prisma/client": "^3.2.0",
     "apollo-angular": "^2.6.0",

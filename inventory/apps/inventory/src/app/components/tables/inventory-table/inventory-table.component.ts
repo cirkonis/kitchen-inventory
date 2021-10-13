@@ -149,9 +149,9 @@ export class InventoryTableComponent implements OnInit {
 
   private checkAddAllDisabled() {
     const itemsToOrderCount = this.items.filter(
-      (item) => item.status !== Statuses.UNDER
+      (item) => item.status === Statuses.UNDER
     ).length;
-    this.addAllDisabled = !(itemsToOrderCount > 1);
+    this.addAllDisabled = itemsToOrderCount > 1;
   }
 
   updateAllItemsStock() {
