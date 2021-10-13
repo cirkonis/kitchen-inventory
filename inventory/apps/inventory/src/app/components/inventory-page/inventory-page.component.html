@@ -7,26 +7,38 @@
     />
     <h1 class="compu-text">COMPUSTUFF</h1>
     <div class="add-stuff-button">
-      <button mat-raised-button color="primary" (click)="addStuff()">Add A Stuff</button>
+      <button mat-raised-button color="primary" (click)="addStuff()">
+        Add A Stuff
+      </button>
     </div>
   </div>
   <div class="tab-group">
     <mat-tab-group animationDuration="1000ms">
       <mat-tab label="Drinks">
-        <inventory-inventory-table  *ngIf="drinks?.length" [items]="drinks"></inventory-inventory-table>
+        <inventory-inventory-table
+          *ngIf="drinks?.length"
+          [items]="drinks"
+        ></inventory-inventory-table>
       </mat-tab>
       <mat-tab label="Snacks">
-        <inventory-inventory-table *ngIf="snacks?.length" [items]="snacks"></inventory-inventory-table>
+        <inventory-inventory-table
+          *ngIf="snacks?.length"
+          [items]="snacks"
+        ></inventory-inventory-table>
       </mat-tab>
       <mat-tab label="Utilities">
-        <inventory-inventory-table *ngIf="utilities?.length" [items]="utilities"></inventory-inventory-table>
+        <inventory-inventory-table
+          *ngIf="utilities?.length"
+          [items]="utilities"
+        ></inventory-inventory-table>
       </mat-tab>
       <mat-tab label="Order List">
-        <inventory-inventory-table *ngIf="orderList?.length" [items]="orderList"></inventory-inventory-table>
+        <inventory-order-table
+          *ngIf="orderList?.length"
+          [items]="orderList"
+        ></inventory-order-table>
       </mat-tab>
     </mat-tab-group>
   </div>
   <mat-spinner *ngIf="loading" color="primary"></mat-spinner>
 </div>
-
-

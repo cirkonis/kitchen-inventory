@@ -1,6 +1,7 @@
 .page-wrapper{
   width: 99%;
   height: 99%;
+  overflow: hidden;
   display: flex;
   flex-flow: column;
   justify-content: flex-start;

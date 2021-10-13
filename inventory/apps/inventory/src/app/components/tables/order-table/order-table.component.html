@@ -1,0 +1,78 @@
+<table
+  mat-table
+  [dataSource]="dataSource"
+  class="mat-elevation-z8 inventory-table"
+>
+  <!-- Position Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Item</th>
+    <td mat-cell *matCellDef="let item">{{ item.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="unit">
+    <th mat-header-cell *matHeaderCellDef>Unit</th>
+    <td mat-cell *matCellDef="let item">{{ item.unit }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="amount">
+    <th mat-header-cell *matHeaderCellDef>Amount to order</th>
+    <td mat-cell *matCellDef="let item">{{ item.orderAmount }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="on-the-way">
+    <th mat-header-cell *matHeaderCellDef>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onAllComingClick()"
+        [disabled]="allOnTheWayDisabled"
+      >
+        All On The Way?
+      </button>
+    </th>
+    <td mat-cell *matCellDef="let item">
+      <button
+        *ngIf="item.status !== statuses.ON_THE_WAY"
+        mat-raised-button
+        color="accent"
+        (click)="setItemToComing(item)"
+      >
+        On The Way? 🚐
+      </button>
+      <p *ngIf="item.status === statuses.ON_THE_WAY">det kommer 👍</p>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="received">
+    <th mat-header-cell *matHeaderCellDef>
+      <button mat-raised-button color="primary" (click)="onRemoveAllClick()">
+        Remove All
+      </button>
+    </th>
+    <td mat-cell *matCellDef="let item">
+      <button
+        mat-raised-button
+        color="warn"
+        (click)="removeItemFromOrderList(item)"
+      >
+        Remove 😬
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<div *ngIf="!easterEgg" class="lil-eyes"><button mat-icon-button (click)="easterEgger()">👀</button></div>
+<div *ngIf="easterEgg" class="eye-balls">
+  <div class="eyes">👀</div>
+  <div class="big-word">LOOK</div>
+  <div class="big-word">AT</div>
+  <div class="big-word">ALL</div>
+  <div class="big-word">THAT</div>
+  <div class="big-word">COMPU-</div>
+  <div class="big-word">STUFF</div>
+  <div class="big-word">!!!!</div>
+  <div class="big-word">🤯<button mat-icon-button (click)="easterEgger()">🤯</button>🤯</div>
+</div>
+<mat-spinner *ngIf="loading" color="accent"></mat-spinner>

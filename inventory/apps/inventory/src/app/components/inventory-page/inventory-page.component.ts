@@ -57,7 +57,9 @@ export class InventoryPageComponent implements OnInit {
       );
 
       this.orderList = this.items.filter(
-        (item) => item.status === Statuses.ON_ORDER
+        (item) =>
+          item.status === Statuses.ON_ORDER ||
+          item.status === Statuses.ON_THE_WAY
       );
     });
     this.loading = false;

@@ -51,7 +51,11 @@ export class FullItemFormComponent implements OnInit {
         threshold: itemFormValue.threshold,
         orderAmount: itemFormValue.orderAmount,
         category: itemFormValue.category,
-        status: evaluateStatus(itemFormValue.stock, itemFormValue.threshold),
+        status: evaluateStatus(
+          itemFormValue.status,
+          itemFormValue.stock,
+          itemFormValue.threshold
+        ),
       });
     } else {
       return;

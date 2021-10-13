@@ -1,0 +1,49 @@
+table {
+  width: 70%;
+}
+
+td {
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 2px;
+  font-size: 16px;
+}
+
+.eye-balls {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 30%;
+  position: fixed;
+  right: 1%;
+  top: 20%;
+}
+
+.lil-eyes {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 30%;
+  position: fixed;
+  right: 0;
+  top: 20%;
+}
+
+
+.eyes {
+  font-size: 300px;
+}
+
+.big-word {
+  font-family: 'Open Sans', sans-serif;
+  color: #003459;
+  letter-spacing: 3px;
+  font-size: 48px;
+}
+
+mat-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}

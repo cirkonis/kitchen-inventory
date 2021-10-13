@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Item, UpdateStockStatuses } from '@inventory/api-interfaces';
-import { InventoryDataSource } from './inventory-data-source';
+import { Item, Statuses, UpdateStockStatuses } from '@inventory/api-interfaces';
+import { InventoryDataSource } from '../inventory-data-source';
 import { MatDialog } from '@angular/material/dialog';
-import { InventoryService } from '../../services/inventory.service';
-import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EditStuffComponent } from '../../dialogs/edit-stuff/edit-stuff.component';
+import { InventoryService } from '../../../services/inventory.service';
+import { ConfirmationDialogComponent } from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { EditStuffComponent } from '../../../dialogs/edit-stuff/edit-stuff.component';
+import { evaluateStatus } from '../../../helpers/helpers';
 
 @Component({
   selector: 'inventory-inventory-table',
@@ -17,11 +17,13 @@ export class InventoryTableComponent implements OnInit {
 
   updateStockStatuses = UpdateStockStatuses;
 
+  statuses = Statuses;
+
   dataSource!: InventoryDataSource;
 
-  stockForm!: FormGroup;
-
   updateAllDisabled!: boolean;
+
+  addAllDisabled: any;
 
   updatingAll!: boolean;
 
@@ -42,19 +44,16 @@ export class InventoryTableComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private inventoryService: InventoryService,
-    private formBuilder: FormBuilder
+    private inventoryService: InventoryService
   ) {}
 
   ngOnInit(): void {
     this.updateAllDisabled = true;
+    this.checkAddAllDisabled();
     this.updatingAll = false;
     this.loading = false;
     let dataToDisplay = this.items;
     this.dataSource = new InventoryDataSource(dataToDisplay);
-    this.stockForm = this.formBuilder.group({
-      stock: [null, [Validators.required]],
-    });
   }
 
   editStuff(item: Item) {
@@ -74,7 +73,7 @@ export class InventoryTableComponent implements OnInit {
       width: '400px',
       height: '300px',
       data: {
-        titleText: 'Delete the Stuff !??!',
+        titleText: 'Delete the Stuff !??!  😬',
         bodyText: "Once you yeet the stuff it's gone forever",
         cancelText: 'Changed my mind',
         approveText: 'YEET IT!!',
@@ -102,6 +101,7 @@ export class InventoryTableComponent implements OnInit {
     }
     this.updateStockStatus(item);
     this.checkUpdateAllDisabled();
+    this.checkAddAllDisabled();
   }
 
   updateStockStatus(item: Item) {
@@ -118,7 +118,7 @@ export class InventoryTableComponent implements OnInit {
     }
   }
 
-  updateStock(item: Item) {
+  async updateStock(item: Item) {
     const updatedItem: Item = {
       id: item.id,
       name: item.name,
@@ -126,10 +126,14 @@ export class InventoryTableComponent implements OnInit {
       threshold: item.threshold,
       stock: +item.updatedStockValue!,
       orderAmount: item.orderAmount,
-      status: item.status,
+      status: evaluateStatus(
+        item.status,
+        +item.updatedStockValue!,
+        item.threshold
+      ),
       unit: item.unit,
     };
-    this.inventoryService.updateItem(updatedItem).subscribe();
+    await this.inventoryService.updateItem(updatedItem).subscribe();
     if (!this.updatingAll) {
       window.location.reload();
     }
@@ -143,6 +147,13 @@ export class InventoryTableComponent implements OnInit {
     this.updateAllDisabled = changedItemsStockCount < 2;
   }
 
+  private checkAddAllDisabled() {
+    const itemsToOrderCount = this.items.filter(
+      (item) => item.status !== Statuses.UNDER
+    ).length;
+    this.addAllDisabled = !(itemsToOrderCount > 1);
+  }
+
   updateAllItemsStock() {
     this.updatingAll = true;
     this.loading = true;
@@ -152,6 +163,40 @@ export class InventoryTableComponent implements OnInit {
     for (let item of itemsToUpdate) {
       this.updateStock(item);
     }
+    this.updatingAll = false;
+    this.loading = false;
+    window.location.reload();
+  }
+
+  async addItemToOrderLIst(item: Item) {
+    const updatedItem: Item = {
+      id: item.id,
+      name: item.name,
+      category: item.category,
+      threshold: item.threshold,
+      stock: item.stock,
+      orderAmount: item.orderAmount,
+      status: Statuses.ON_ORDER,
+      unit: item.unit,
+    };
+    await this.inventoryService.updateItem(updatedItem).subscribe();
+    if (!this.updatingAll) {
+      window.location.reload();
+    }
+  }
+
+  addAllItemsToOrder() {
+    this.updatingAll = true;
+    this.loading = true;
+    const itemsToAdd = this.items.filter(
+      (item) => item.status === Statuses.UNDER
+    );
+    for (let item of itemsToAdd) {
+      this.addItemToOrderLIst(item);
+    }
+    this.updatingAll = false;
+    this.loading = false;
+    this.checkAddAllDisabled();
     window.location.reload();
   }
 }

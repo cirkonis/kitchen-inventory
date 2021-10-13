@@ -1,0 +1,55 @@
+.inventory-table {
+  width: 100%;
+}
+
+.form-field {
+  margin-top: 4px;
+}
+
+.update-stock {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px 0 0;
+  font-size: 16px;
+}
+
+mat-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.mat-column-name{
+  width: 10%;
+}
+
+.mat-column-stock{
+  width: 5%;
+}
+
+.mat-column-unit{
+ width: 10%;
+}
+
+.mat-column-update{
+  width: 10%;
+}
+
+
+.mat-column-threshold, .mat-column-amount {
+  width: 5%;
+}
+
+.mat-column-status {
+  width: 10%;
+}
+
+.mat-column-order {
+  width: 10%;
+}
+
+.mat-column-edit, .mat-column-delete {
+  width: 5%;
+}

@@ -19,13 +19,4 @@ export class InventoryDataSource extends DataSource<Item> {
   setData(data: Item[]) {
     this._dataStream.next(data);
   }
-  // addData() {
-  //   this.dataToDisplay = [...this.dataToDisplay];
-  //   this.dataSource.setData(this.dataToDisplay);
-  // }
-  //
-  // removeData() {
-  //   this.dataToDisplay = this.dataToDisplay.slice(0, -1);
-  //   this.dataSource.setData(this.dataToDisplay);
-  // }
 }
