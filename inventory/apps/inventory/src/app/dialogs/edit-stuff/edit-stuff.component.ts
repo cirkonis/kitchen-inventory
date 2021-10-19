@@ -38,8 +38,7 @@ export class EditStuffComponent implements OnInit {
       status: status!,
     };
     await this.inventoryService.updateItem(itemPayload).subscribe();
+    this.loading = false;
     this.dialogRef.close();
-    // TODO 2021-10-11 MM replace this with observable stream to update data
-    window.location.reload();
   }
 }

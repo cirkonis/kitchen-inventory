@@ -21,24 +21,24 @@ mat-spinner {
   left: 50%;
 }
 
-.mat-column-name{
+.mat-column-name {
   width: 10%;
 }
 
-.mat-column-stock{
+.mat-column-stock {
   width: 5%;
 }
 
-.mat-column-unit{
- width: 10%;
-}
-
-.mat-column-update{
+.mat-column-unit {
   width: 10%;
 }
 
+.mat-column-update {
+  width: 10%;
+}
 
-.mat-column-threshold, .mat-column-amount {
+.mat-column-threshold,
+.mat-column-amount {
   width: 5%;
 }
 
@@ -50,6 +50,7 @@ mat-spinner {
   width: 10%;
 }
 
-.mat-column-edit, .mat-column-delete {
+.mat-column-edit,
+.mat-column-delete {
   width: 5%;
 }

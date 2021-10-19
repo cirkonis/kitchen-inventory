@@ -25,7 +25,7 @@
         mat-raised-button
         color="primary"
         (click)="onAllComingClick()"
-        [disabled]="allOnTheWayDisabled"
+        [disabled]="allOnTheWayDisabled || !dataSource.data.length"
       >
         All On The Way?
       </button>
@@ -45,7 +45,12 @@
 
   <ng-container matColumnDef="received">
     <th mat-header-cell *matHeaderCellDef>
-      <button mat-raised-button color="primary" (click)="onRemoveAllClick()">
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!dataSource.data.length"
+        (click)="onRemoveAllClick()"
+      >
         Remove All
       </button>
     </th>
@@ -63,7 +68,9 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
-<div *ngIf="!easterEgg" class="lil-eyes"><button mat-icon-button (click)="easterEgger()">👀</button></div>
+<div *ngIf="!easterEgg" class="lil-eyes">
+  <button mat-icon-button (click)="easterEgger()">👀</button>
+</div>
 <div *ngIf="easterEgg" class="eye-balls">
   <div class="eyes">👀</div>
   <div class="big-word">LOOK</div>
@@ -73,6 +80,8 @@
   <div class="big-word">COMPU-</div>
   <div class="big-word">STUFF</div>
   <div class="big-word">!!!!</div>
-  <div class="big-word">🤯<button mat-icon-button (click)="easterEgger()">🤯</button>🤯</div>
+  <div class="big-word">
+    🤯<button mat-icon-button (click)="easterEgger()">🤯</button>🤯
+  </div>
 </div>
 <mat-spinner *ngIf="loading" color="accent"></mat-spinner>

@@ -1,4 +1,6 @@
 <table
+  #matTable
+  *ngIf="!loading"
   mat-table
   [dataSource]="dataSource"
   class="mat-elevation-z8 inventory-table"
@@ -42,7 +44,7 @@
   <ng-container matColumnDef="status">
     <th mat-header-cell *matHeaderCellDef>Status</th>
     <td mat-cell *matCellDef="let item">
-      <div ngSwitch="{{item.status}}">
+      <div ngSwitch="{{ item.status }}">
         <div *ngSwitchCase="statuses.ON_THE_WAY">🥳 On the Way!</div>
         <div *ngSwitchCase="statuses.UNDER">🚨 RUNNING OUT!!!</div>
         <div *ngSwitchCase="statuses.ON_ORDER">🎅 On the list</div>
@@ -53,9 +55,9 @@
 
   <ng-container matColumnDef="order">
     <th mat-header-cell *matHeaderCellDef>
-      <p *ngIf="!addAllDisabled">Add to Order</p>
+      <p *ngIf="addAllDisabled">Add to Order</p>
       <button
-        *ngIf="addAllDisabled"
+        *ngIf="!addAllDisabled"
         mat-raised-button
         color="accent"
         (click)="addAllItemsToOrder()"
@@ -131,7 +133,7 @@
   <ng-container matColumnDef="delete">
     <th mat-header-cell *matHeaderCellDef>Delete</th>
     <td mat-cell *matCellDef="let item">
-      <button mat-icon-button color="warn" (click)="deleteStuff(item.id)">
+      <button mat-icon-button color="warn" (click)="deleteStuff(item)">
         <mat-icon>delete</mat-icon>
       </button>
     </td>

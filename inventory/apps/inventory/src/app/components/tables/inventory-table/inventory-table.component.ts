@@ -1,11 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Item, Statuses, UpdateStockStatuses } from '@inventory/api-interfaces';
-import { InventoryDataSource } from '../inventory-data-source';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Categories,
+  Item,
+  Statuses,
+  UpdateStockStatuses,
+} from '@inventory/api-interfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { InventoryService } from '../../../services/inventory.service';
 import { ConfirmationDialogComponent } from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { EditStuffComponent } from '../../../dialogs/edit-stuff/edit-stuff.component';
 import { evaluateStatus } from '../../../helpers/helpers';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'inventory-inventory-table',
@@ -13,17 +19,21 @@ import { evaluateStatus } from '../../../helpers/helpers';
   styleUrls: ['./inventory-table.component.css'],
 })
 export class InventoryTableComponent implements OnInit {
-  @Input() items!: Item[];
+  @Input() category!: Categories;
+
+  @ViewChild('matTable') matTable!: MatTable<any>;
+
+  items$: Observable<any> = this.inventoryService.listItems();
 
   updateStockStatuses = UpdateStockStatuses;
 
   statuses = Statuses;
 
-  dataSource!: InventoryDataSource;
+  dataSource!: MatTableDataSource<Item>;
 
   updateAllDisabled!: boolean;
 
-  addAllDisabled: any;
+  addAllDisabled!: boolean;
 
   updatingAll!: boolean;
 
@@ -47,17 +57,13 @@ export class InventoryTableComponent implements OnInit {
     private inventoryService: InventoryService
   ) {}
 
-  ngOnInit(): void {
-    this.updateAllDisabled = true;
-    this.checkAddAllDisabled();
-    this.updatingAll = false;
-    this.loading = false;
-    let dataToDisplay = this.items;
-    this.dataSource = new InventoryDataSource(dataToDisplay);
+  async ngOnInit() {
+    this.dataSource = new MatTableDataSource<Item>();
+    await this.setItems();
   }
 
   editStuff(item: Item) {
-    this.dialog.open(EditStuffComponent, {
+    const dialogRef = this.dialog.open(EditStuffComponent, {
       disableClose: true,
       width: '500px',
       height: '600px',
@@ -66,9 +72,11 @@ export class InventoryTableComponent implements OnInit {
         item: { ...item },
       },
     });
+
+    dialogRef.afterClosed().subscribe(() => this.setItems());
   }
 
-  async deleteStuff(id: string) {
+  async deleteStuff(item: Item) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '400px',
       height: '300px',
@@ -81,15 +89,16 @@ export class InventoryTableComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
+      // TODO fix this mess
       if (result) {
-        try {
-          await this.inventoryService
-            .deleteItem(id)
-            .subscribe(() => window.location.reload());
-        } catch (error) {
-          console.error(error);
-          //TODO notification service
-        }
+        await this.inventoryService.deleteItem(item.id).subscribe();
+        this.dataSource.data = this.dataSource.data.filter((value) => {
+          return value.id != item.id;
+        });
+        this.matTable.renderRows();
+        await this.setItems();
+        // TODO sort out implementation with out reload
+        window.location.reload();
       }
     });
   }
@@ -135,12 +144,12 @@ export class InventoryTableComponent implements OnInit {
     };
     await this.inventoryService.updateItem(updatedItem).subscribe();
     if (!this.updatingAll) {
-      window.location.reload();
+      await this.setItems();
     }
   }
 
   private checkUpdateAllDisabled() {
-    const changedItemsStockCount = this.items.filter(
+    const changedItemsStockCount = this.dataSource.data.filter(
       (item) => item.updatedStockStatus !== UpdateStockStatuses.UNCHANGED
     ).length;
 
@@ -148,24 +157,24 @@ export class InventoryTableComponent implements OnInit {
   }
 
   private checkAddAllDisabled() {
-    const itemsToOrderCount = this.items.filter(
+    const itemsToOrderCount = this.dataSource.data.filter(
       (item) => item.status === Statuses.UNDER
     ).length;
-    this.addAllDisabled = itemsToOrderCount > 1;
+    this.addAllDisabled = !(itemsToOrderCount > 1);
   }
 
-  updateAllItemsStock() {
+  async updateAllItemsStock() {
     this.updatingAll = true;
     this.loading = true;
-    const itemsToUpdate = this.items.filter(
+    const itemsToUpdate = this.dataSource.data.filter(
       (item) => item.updatedStockStatus !== UpdateStockStatuses.UNCHANGED
     );
     for (let item of itemsToUpdate) {
-      this.updateStock(item);
+      await this.updateStock(item);
     }
     this.updatingAll = false;
     this.loading = false;
-    window.location.reload();
+    await this.setItems();
   }
 
   async addItemToOrderLIst(item: Item) {
@@ -181,14 +190,14 @@ export class InventoryTableComponent implements OnInit {
     };
     await this.inventoryService.updateItem(updatedItem).subscribe();
     if (!this.updatingAll) {
-      window.location.reload();
+      await this.setItems();
     }
   }
 
-  addAllItemsToOrder() {
+  async addAllItemsToOrder() {
     this.updatingAll = true;
     this.loading = true;
-    const itemsToAdd = this.items.filter(
+    const itemsToAdd = this.dataSource.data.filter(
       (item) => item.status === Statuses.UNDER
     );
     for (let item of itemsToAdd) {
@@ -197,6 +206,27 @@ export class InventoryTableComponent implements OnInit {
     this.updatingAll = false;
     this.loading = false;
     this.checkAddAllDisabled();
-    window.location.reload();
+    await this.setItems();
+  }
+
+  async setItems() {
+    this.loading = true;
+    await this.items$.subscribe((result) => {
+      const itemsFront: Item[] = [];
+      for (let item of result.data.listItems.filter(
+        (item: Item) => item.category === this.category
+      )) {
+        itemsFront.push({
+          ...item,
+          updatedStockStatus: UpdateStockStatuses.UNCHANGED,
+          updatedStockValue: item.stock,
+        });
+      }
+      this.dataSource.data = itemsFront;
+      this.updateAllDisabled = true;
+      this.checkAddAllDisabled();
+      this.updatingAll = false;
+      this.loading = false;
+    });
   }
 }

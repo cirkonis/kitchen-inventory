@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Item, Statuses } from '@inventory/api-interfaces';
-import { InventoryDataSource } from '../inventory-data-source';
+import { Component, OnInit } from '@angular/core';
+import { Item, Statuses, UpdateStockStatuses } from '@inventory/api-interfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { InventoryService } from '../../../services/inventory.service';
 import { evaluateStatus } from '../../../helpers/helpers';
 import { ConfirmationDialogComponent } from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { Observable } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'inventory-order-table',
@@ -12,11 +13,11 @@ import { ConfirmationDialogComponent } from '../../../dialogs/confirmation-dialo
   styleUrls: ['./order-table.component.css'],
 })
 export class OrderTableComponent implements OnInit {
-  @Input() items!: Item[];
-
   statuses = Statuses;
 
-  dataSource!: InventoryDataSource;
+  dataSource!: MatTableDataSource<Item>;
+
+  items$: Observable<any> = this.inventoryService.listItems();
 
   updatingAll!: boolean;
 
@@ -39,13 +40,9 @@ export class OrderTableComponent implements OnInit {
     private inventoryService: InventoryService
   ) {}
 
-  ngOnInit(): void {
-    this.easterEgg = false;
-    this.updatingAll = false;
-    this.loading = false;
-    this.checkAllOnTheWayDisabled();
-    let dataToDisplay = this.items;
-    this.dataSource = new InventoryDataSource(dataToDisplay);
+  async ngOnInit() {
+    this.dataSource = new MatTableDataSource<Item>();
+    await this.setItems();
   }
 
   async setItemToComing(item: Item) {
@@ -61,7 +58,7 @@ export class OrderTableComponent implements OnInit {
     };
     await this.inventoryService.updateItem(updatedItem).subscribe();
     if (!this.updatingAll) {
-      window.location.reload();
+      await this.setItems();
     }
   }
 
@@ -78,19 +75,19 @@ export class OrderTableComponent implements OnInit {
     };
     await this.inventoryService.updateItem(updatedItem).subscribe();
     if (!this.updatingAll) {
-      window.location.reload();
+      await this.setItems();
     }
   }
 
-  setAllItemsToComing() {
+  async setAllItemsToComing() {
     this.updatingAll = true;
     this.loading = true;
-    for (let item of this.items) {
-      this.setItemToComing(item);
+    for (let item of this.dataSource.data) {
+      await this.setItemToComing(item);
     }
     this.updatingAll = false;
     this.loading = false;
-    window.location.reload();
+    await this.setItems();
   }
 
   onRemoveAllClick() {
@@ -109,7 +106,7 @@ export class OrderTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
         try {
-          this.removeAllItemsFromOrderList();
+          await this.removeAllItemsFromOrderList();
         } catch (error) {
           console.error(error);
           //TODO notification service
@@ -133,7 +130,7 @@ export class OrderTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
         try {
-          this.setAllItemsToComing();
+          await this.setAllItemsToComing();
         } catch (error) {
           console.error(error);
           //TODO notification service
@@ -142,26 +139,50 @@ export class OrderTableComponent implements OnInit {
     });
   }
 
-  removeAllItemsFromOrderList() {
+  async removeAllItemsFromOrderList() {
     this.updatingAll = true;
     this.loading = true;
-    for (let item of this.items) {
-      this.removeItemFromOrderList(item);
+    for (let item of this.dataSource.data) {
+      await this.removeItemFromOrderList(item);
     }
     this.updatingAll = false;
     this.loading = false;
-    window.location.reload();
+    await this.setItems();
   }
 
   checkAllOnTheWayDisabled() {
-    const itemsNotOnTheWayCount = this.items.filter(
+    const itemsNotOnTheWayCount = this.dataSource.data.filter(
       (item) => item.status !== Statuses.ON_THE_WAY
     ).length;
-    console.log(itemsNotOnTheWayCount);
-    this.allOnTheWayDisabled = !(itemsNotOnTheWayCount > 1);
+    this.allOnTheWayDisabled = !(itemsNotOnTheWayCount === 0);
   }
 
   easterEgger() {
     this.easterEgg = !this.easterEgg;
+  }
+
+  async setItems() {
+    this.loading = true;
+    await this.items$.subscribe((result) => {
+      const itemsFront: Item[] = [];
+      for (let item of result.data.listItems.filter(
+        (item: Item) =>
+          item.status === Statuses.ON_ORDER ||
+          item.status === Statuses.ON_THE_WAY
+      )) {
+        itemsFront.push({
+          ...item,
+          updatedStockStatus: UpdateStockStatuses.UNCHANGED,
+          updatedStockValue: item.stock,
+        });
+      }
+      this.dataSource.data = itemsFront;
+      this.updatingAll = false;
+      this.loading = false;
+      this.easterEgg = false;
+      this.updatingAll = false;
+      this.checkAllOnTheWayDisabled();
+      this.loading = false;
+    });
   }
 }

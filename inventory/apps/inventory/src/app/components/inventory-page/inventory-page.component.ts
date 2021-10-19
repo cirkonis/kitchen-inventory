@@ -1,11 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  Categories,
-  Item,
-  Statuses,
-  UpdateStockStatuses,
-} from '@inventory/api-interfaces';
-import { InventoryService } from '../../services/inventory.service';
+import { Categories, Item, Statuses } from '@inventory/api-interfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { AddStuffComponent } from '../../dialogs/add-stuff/add-stuff.component';
 
@@ -15,57 +9,15 @@ import { AddStuffComponent } from '../../dialogs/add-stuff/add-stuff.component';
   styleUrls: ['./inventory-page.component.css'],
 })
 export class InventoryPageComponent implements OnInit {
-  items: Item[] = [];
-
-  drinks!: Item[];
-  snacks!: Item[];
-  utilities!: Item[];
-  orderList!: Item[];
+  categories = Categories;
 
   loading!: boolean;
 
-  constructor(
-    private inventoryService: InventoryService,
-    public dialogRef: MatDialog
-  ) {}
+  constructor(public dialog: MatDialog) {}
 
-  async ngOnInit(): Promise<void> {
-    await this.setItems();
-  }
+  async ngOnInit(): Promise<void> {}
 
-  async setItems() {
-    this.loading = true;
-    await this.inventoryService.listItems().subscribe((result) => {
-      for (let item of result.data.listItems) {
-        this.items.push({
-          ...item,
-          updatedStockStatus: UpdateStockStatuses.UNCHANGED,
-          updatedStockValue: item.stock,
-        });
-      }
-
-      this.drinks = this.items.filter(
-        (item) => item.category === Categories.DRINK
-      );
-
-      this.snacks = this.items.filter(
-        (item) => item.category === Categories.SNACK
-      );
-
-      this.utilities = this.items.filter(
-        (item) => item.category === Categories.UTILITIY
-      );
-
-      this.orderList = this.items.filter(
-        (item) =>
-          item.status === Statuses.ON_ORDER ||
-          item.status === Statuses.ON_THE_WAY
-      );
-    });
-    this.loading = false;
-  }
-
-  addStuff() {
+  async addStuff() {
     const emptyItem: Item = {
       id: '',
       name: '',
@@ -77,7 +29,7 @@ export class InventoryPageComponent implements OnInit {
       category: Categories.UNDETERMINED,
     };
 
-    this.dialogRef.open(AddStuffComponent, {
+    this.dialog.open(AddStuffComponent, {
       disableClose: true,
       width: '500px',
       height: '600px',

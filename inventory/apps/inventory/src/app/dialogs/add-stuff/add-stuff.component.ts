@@ -12,6 +12,8 @@ import { v4 as uuidv4 } from 'uuid';
 export class AddStuffComponent implements OnInit {
   item!: Item;
 
+  createdItem!: Item;
+
   loading = false;
 
   constructor(
@@ -38,8 +40,8 @@ export class AddStuffComponent implements OnInit {
       orderAmount: +orderAmount!,
       status: status!,
     };
-    await this.inventoryService.createItem(itemPayload).subscribe();
-    window.location.reload();
-    this.dialogRef.close();
+    this.inventoryService
+      .createItem(itemPayload)
+      .subscribe(() => window.location.reload());
   }
 }
