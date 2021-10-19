@@ -38,7 +38,7 @@ export class FullItemFormComponent implements OnInit {
         this.item.orderAmount,
         [Validators.required, Validators.min(0)],
       ],
-      category: [this.item.category, [Validators.required]],
+      category: [null, [Validators.required]],
     });
   }
   onSubmit() {

@@ -154,7 +154,7 @@ export class OrderTableComponent implements OnInit {
     const itemsNotOnTheWayCount = this.dataSource.data.filter(
       (item) => item.status !== Statuses.ON_THE_WAY
     ).length;
-    this.allOnTheWayDisabled = !(itemsNotOnTheWayCount === 0);
+    this.allOnTheWayDisabled = !(itemsNotOnTheWayCount > 1);
   }
 
   easterEgger() {

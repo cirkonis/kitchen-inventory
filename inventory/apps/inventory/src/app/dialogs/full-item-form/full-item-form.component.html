@@ -12,7 +12,7 @@
   <label for="select"> Type of Stuff </label>
   <div class="form-field select">
     <select id="select" formControlName="category">
-      <option value="">Choose what kind of stuff this item is</option>
+      <option value="{{null}}">Choose what kind of stuff this item is</option>
       <option *ngFor="let category of categories">
         {{ category }}
       </option>
