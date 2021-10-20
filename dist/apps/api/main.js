@@ -157,6 +157,8 @@ const prisma_service_1 = __webpack_require__(/*! ./prisma/prisma.service */ "./a
 const prisma_module_1 = __webpack_require__(/*! ./prisma/prisma.module */ "./apps/api/src/app/prisma/prisma.module.ts");
 const serve_static_1 = __webpack_require__(/*! @nestjs/serve-static */ "@nestjs/serve-static");
 const path_1 = __webpack_require__(/*! path */ "path");
+const auth_module_1 = __webpack_require__(/*! ./auth/auth.module */ "./apps/api/src/app/auth/auth.module.ts");
+const users_module_1 = __webpack_require__(/*! ./users/users.module */ "./apps/api/src/app/users/users.module.ts");
 let AppModule = class AppModule {
 };
 AppModule = tslib_1.__decorate([
@@ -174,6 +176,8 @@ AppModule = tslib_1.__decorate([
             }),
             items_module_1.ItemsModule,
             prisma_module_1.PrismaModule,
+            auth_module_1.AuthModule,
+            users_module_1.UsersModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService, prisma_service_1.PrismaService],
@@ -206,6 +210,55 @@ AppService = tslib_1.__decorate([
     common_1.Injectable()
 ], AppService);
 exports.AppService = AppService;
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/auth/auth.module.ts":
+/*!**********************************************!*\
+  !*** ./apps/api/src/app/auth/auth.module.ts ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AuthModule = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const auth_service_1 = __webpack_require__(/*! ./auth.service */ "./apps/api/src/app/auth/auth.service.ts");
+let AuthModule = class AuthModule {
+};
+AuthModule = tslib_1.__decorate([
+    common_1.Module({
+        providers: [auth_service_1.AuthService],
+    })
+], AuthModule);
+exports.AuthModule = AuthModule;
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/auth/auth.service.ts":
+/*!***********************************************!*\
+  !*** ./apps/api/src/app/auth/auth.service.ts ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AuthService = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+let AuthService = class AuthService {
+};
+AuthService = tslib_1.__decorate([
+    common_1.Injectable()
+], AuthService);
+exports.AuthService = AuthService;
 
 
 /***/ }),
@@ -554,6 +607,55 @@ PrismaService = tslib_1.__decorate([
     common_1.Injectable()
 ], PrismaService);
 exports.PrismaService = PrismaService;
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/users/users.module.ts":
+/*!************************************************!*\
+  !*** ./apps/api/src/app/users/users.module.ts ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UsersModule = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const users_service_1 = __webpack_require__(/*! ./users.service */ "./apps/api/src/app/users/users.service.ts");
+let UsersModule = class UsersModule {
+};
+UsersModule = tslib_1.__decorate([
+    common_1.Module({
+        providers: [users_service_1.UsersService],
+    })
+], UsersModule);
+exports.UsersModule = UsersModule;
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/users/users.service.ts":
+/*!*************************************************!*\
+  !*** ./apps/api/src/app/users/users.service.ts ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UsersService = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+let UsersService = class UsersService {
+};
+UsersService = tslib_1.__decorate([
+    common_1.Injectable()
+], UsersService);
+exports.UsersService = UsersService;
 
 
 /***/ }),
