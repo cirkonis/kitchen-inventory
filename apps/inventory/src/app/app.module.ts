@@ -29,6 +29,7 @@ import { EditStuffComponent } from './dialogs/edit-stuff/edit-stuff.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
+import { LoginPageComponent } from './components/login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MatSelectModule } from '@angular/material/select';
     FullItemFormComponent,
     EditStuffComponent,
     ConfirmationDialogComponent,
+    LoginPageComponent,
   ],
   imports: [
     AppRoutingModule,

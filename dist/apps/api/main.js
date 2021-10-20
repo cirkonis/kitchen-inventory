@@ -109,6 +109,10 @@ let AppController = class AppController {
     getData() {
         return this.appService.getData();
     }
+    login() {
+        console.log('login hit');
+        return;
+    }
 };
 tslib_1.__decorate([
     common_1.Get('hello'),
@@ -116,6 +120,12 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", typeof (_a = typeof api_interfaces_1.Message !== "undefined" && api_interfaces_1.Message) === "function" ? _a : Object)
 ], AppController.prototype, "getData", null);
+tslib_1.__decorate([
+    common_1.Get('login'),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", void 0)
+], AppController.prototype, "login", null);
 AppController = tslib_1.__decorate([
     common_1.Controller(),
     tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof app_service_1.AppService !== "undefined" && app_service_1.AppService) === "function" ? _b : Object])

@@ -12,4 +12,10 @@ export class AppController {
   getData(): Message {
     return this.appService.getData();
   }
+
+  @Get('login')
+  login() {
+    console.log('login hit');
+    return;
+  }
 }
