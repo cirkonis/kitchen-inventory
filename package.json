@@ -3,12 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "engines": {
-    "node": "14.17.5"
+    "node": "14"
   },
   "scripts": {
     "ng": "nx",
-    "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
-    "start": "nx serve api",
+    "start": "node dist/apps/api/main.js",
     "build": "nx run-many --target=build --projects=inventory,api --parallel=true",
     "test": "nx test",
     "serve-be-and-fe": "nx run-many --target=serve --projects=inventory,api --parallel=true",

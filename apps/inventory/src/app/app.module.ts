@@ -66,7 +66,8 @@ import { MatSelectModule } from '@angular/material/select';
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
-            uri: 'http://localhost:3333/graphql',
+            // TODO abstract this away in env
+            uri: 'https://dry-savannah-80748.herokuapp.com/graphql',
           }),
         };
       },
